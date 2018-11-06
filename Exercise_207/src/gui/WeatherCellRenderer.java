@@ -51,7 +51,9 @@ public class WeatherCellRenderer implements TableCellRenderer {
             label.setBackground(Color.BLUE);
         } else if (s.getTemp() > 0 && s.getTemp() < 25 && s.getHumi() > 50) {
             label.setBackground(Color.GREEN);
-        } else if (bln) {
+        }
+        
+        if (bln) {
             label.setBackground(Color.darkGray);
         }
 

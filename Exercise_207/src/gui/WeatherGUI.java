@@ -64,6 +64,7 @@ public class WeatherGUI extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        WeatherTable.setComponentPopupMenu(jPopupMenu1);
         jScrollPane1.setViewportView(WeatherTable);
 
         btStations.setText("Stations");

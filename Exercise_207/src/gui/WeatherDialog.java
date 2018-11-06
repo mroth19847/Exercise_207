@@ -86,8 +86,8 @@ public class WeatherDialog extends javax.swing.JDialog {
             try {
                 double temp = Double.parseDouble(tftemp.getText());
                 int humi = Integer.parseInt(tfhumi.getText());
-                ok = true;
                 station = new WeatherStation(tfplace.getText(), Integer.parseInt(tfsealevel.getText()), temp, humi);
+                ok = true;
                 this.dispose();
             } catch (NumberFormatException nfe) {
                 JOptionPane.showMessageDialog(null, "Wrong Format!");

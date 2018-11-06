@@ -46,7 +46,7 @@ public class WeatherStation implements Serializable{
     }
 
     public void setHumi(int humi) throws Exception{
-        if(temp < 0 || temp > 100) throw new Exception("This Humidity is invalid!");
+        if(humi < 0 || humi > 100) throw new Exception("This Humidity is invalid!");
         this.humi = humi;
     }
     
