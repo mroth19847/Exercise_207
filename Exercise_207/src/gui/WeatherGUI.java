@@ -1,9 +1,13 @@
 package gui;
 
+import bl.WeatherBL;
+
 public class WeatherGUI extends javax.swing.JFrame {
 
+    private WeatherBL bl = new WeatherBL();
     public WeatherGUI() {
         initComponents();
+        WeatherTable.setModel(bl);
     }
 
     @SuppressWarnings("unchecked")
@@ -95,15 +99,22 @@ public class WeatherGUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btaddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btaddActionPerformed
-        // TODO add your handling code here:
+        WeatherDialog dlg = new WeatherDialog(this, true);
+        dlg.setVisible(true);
+        if(dlg.isOk()){
+            bl.add(dlg.getStation());
+        }
     }//GEN-LAST:event_btaddActionPerformed
 
     private void btremoveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btremoveActionPerformed
-        // TODO add your handling code here:
+        int[] sel = WeatherTable.getSelectedRows();
+        bl.delete(sel);
     }//GEN-LAST:event_btremoveActionPerformed
 
     private void bttempActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bttempActionPerformed
-        // TODO add your handling code here:
+        try{
+            
+        } catch
     }//GEN-LAST:event_bttempActionPerformed
 
     private void bthumiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bthumiActionPerformed

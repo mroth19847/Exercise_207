@@ -9,11 +9,11 @@ public class WeatherStation implements Serializable{
     private double temp;
     private int humi;
 
-    public WeatherStation(String place, int sealevel, double temp, int humi) {
+    public WeatherStation(String place, int sealevel, double temp, int humi) throws Exception{
         this.place = place;
         this.sealevel = sealevel;
-        this.temp = temp;
-        this.humi = humi;
+        setTemp(temp);
+        setHumi(humi);
     }
 
     public String getPlace() {
@@ -40,11 +40,13 @@ public class WeatherStation implements Serializable{
         this.sealevel = sealevel;
     }
 
-    public void setTemp(double temp) {
+    public void setTemp(double temp) throws Exception{
+        if(temp < -35 || temp > 45) throw new Exception("This Temperature is invalid!");
         this.temp = temp;
     }
 
-    public void setHumi(int humi) {
+    public void setHumi(int humi) throws Exception{
+        if(temp < 0 || temp > 100) throw new Exception("This Humidity is invalid!");
         this.humi = humi;
     }
     
