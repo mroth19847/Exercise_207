@@ -2,15 +2,24 @@ package gui;
 
 import bl.WeatherBL;
 import bl.WeatherStation;
+import java.io.File;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 public class WeatherGUI extends javax.swing.JFrame {
 
     private WeatherBL bl = new WeatherBL();
+
     public WeatherGUI() {
         initComponents();
         WeatherTable.setModel(bl);
         WeatherTable.setDefaultRenderer(Object.class, new WeatherCellRenderer());
+        try {
+            bl.loadSerialize(new File("./stations.ser"));
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -38,6 +47,11 @@ public class WeatherGUI extends javax.swing.JFrame {
         jPopupMenu1.add(btremoveCol);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         WeatherTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -114,7 +128,7 @@ public class WeatherGUI extends javax.swing.JFrame {
     private void btaddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btaddActionPerformed
         WeatherDialog dlg = new WeatherDialog(this, true);
         dlg.setVisible(true);
-        if(dlg.isOk()){
+        if (dlg.isOk()) {
             bl.add(dlg.getStation());
         }
     }//GEN-LAST:event_btaddActionPerformed
@@ -125,25 +139,29 @@ public class WeatherGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_btremoveActionPerformed
 
     private void bttempActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bttempActionPerformed
-        try{
+        try {
             int sel = WeatherTable.getSelectedRow();
-            if(sel > -1) ((WeatherStation)bl.getValueAt(sel, 0)).setTemp(Double.parseDouble(JOptionPane.showInputDialog("Please input temperature")));
+            if (sel > -1) {
+                ((WeatherStation) bl.getValueAt(sel, 0)).setTemp(Double.parseDouble(JOptionPane.showInputDialog("Please input temperature")));
+            }
             bl.update();
-        } catch(NumberFormatException nfe){
+        } catch (NumberFormatException nfe) {
             JOptionPane.showMessageDialog(null, "Invalid Format!");
-        } catch (Exception ex){
+        } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage());
         }
     }//GEN-LAST:event_bttempActionPerformed
 
     private void bthumiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bthumiActionPerformed
-        try{
+        try {
             int sel = WeatherTable.getSelectedRow();
-            if(sel > -1) ((WeatherStation)bl.getValueAt(sel, 0)).setHumi(Integer.parseInt(JOptionPane.showInputDialog("Please input humidity")));
+            if (sel > -1) {
+                ((WeatherStation) bl.getValueAt(sel, 0)).setHumi(Integer.parseInt(JOptionPane.showInputDialog("Please input humidity")));
+            }
             bl.update();
-        } catch(NumberFormatException nfe){
+        } catch (NumberFormatException nfe) {
             JOptionPane.showMessageDialog(null, "Invalid Format!");
-        } catch (Exception ex){
+        } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage());
         }
     }//GEN-LAST:event_bthumiActionPerformed
@@ -151,6 +169,14 @@ public class WeatherGUI extends javax.swing.JFrame {
     private void btremoveColActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btremoveColActionPerformed
         bl.switchCol();
     }//GEN-LAST:event_btremoveColActionPerformed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        try {
+            bl.saveSerialize(new File("./stations.ser"));
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }//GEN-LAST:event_formWindowClosing
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
