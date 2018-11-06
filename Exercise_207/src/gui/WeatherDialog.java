@@ -1,3 +1,5 @@
+package gui;
+
 
 import bl.WeatherStation;
 import javax.swing.JOptionPane;
@@ -27,8 +29,6 @@ public class WeatherDialog extends javax.swing.JDialog {
         tfhumi = new javax.swing.JTextField();
         btok = new javax.swing.JButton();
         btcancel = new javax.swing.JButton();
-
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel1.setLayout(new java.awt.GridLayout(5, 2));
 
@@ -98,7 +98,8 @@ public class WeatherDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_btokActionPerformed
 
     private void btcancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btcancelActionPerformed
-        // TODO add your handling code here:
+        ok = false;
+        this.dispose();
     }//GEN-LAST:event_btcancelActionPerformed
 
     public boolean isOk() {

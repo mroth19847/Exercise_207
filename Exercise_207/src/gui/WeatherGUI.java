@@ -1,6 +1,8 @@
 package gui;
 
 import bl.WeatherBL;
+import bl.WeatherStation;
+import javax.swing.JOptionPane;
 
 public class WeatherGUI extends javax.swing.JFrame {
 
@@ -8,12 +10,15 @@ public class WeatherGUI extends javax.swing.JFrame {
     public WeatherGUI() {
         initComponents();
         WeatherTable.setModel(bl);
+        WeatherTable.setDefaultRenderer(Object.class, new WeatherCellRenderer());
     }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPopupMenu1 = new javax.swing.JPopupMenu();
+        btremoveCol = new javax.swing.JMenuItem();
         jScrollPane1 = new javax.swing.JScrollPane();
         WeatherTable = new javax.swing.JTable();
         jMenuBar1 = new javax.swing.JMenuBar();
@@ -23,6 +28,14 @@ public class WeatherGUI extends javax.swing.JFrame {
         btValues = new javax.swing.JMenu();
         bttemp = new javax.swing.JMenuItem();
         bthumi = new javax.swing.JMenuItem();
+
+        btremoveCol.setText("Show / Dispose Sea Level");
+        btremoveCol.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btremoveColActionPerformed(evt);
+            }
+        });
+        jPopupMenu1.add(btremoveCol);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -113,17 +126,32 @@ public class WeatherGUI extends javax.swing.JFrame {
 
     private void bttempActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bttempActionPerformed
         try{
-            
-        } catch
+            int sel = WeatherTable.getSelectedRow();
+            if(sel > -1) ((WeatherStation)bl.getValueAt(sel, 0)).setTemp(Double.parseDouble(JOptionPane.showInputDialog("Please input temperature")));
+            bl.update();
+        } catch(NumberFormatException nfe){
+            JOptionPane.showMessageDialog(null, "Invalid Format!");
+        } catch (Exception ex){
+            JOptionPane.showMessageDialog(null, ex.getMessage());
+        }
     }//GEN-LAST:event_bttempActionPerformed
 
     private void bthumiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bthumiActionPerformed
-        // TODO add your handling code here:
+        try{
+            int sel = WeatherTable.getSelectedRow();
+            if(sel > -1) ((WeatherStation)bl.getValueAt(sel, 0)).setHumi(Integer.parseInt(JOptionPane.showInputDialog("Please input humidity")));
+            bl.update();
+        } catch(NumberFormatException nfe){
+            JOptionPane.showMessageDialog(null, "Invalid Format!");
+        } catch (Exception ex){
+            JOptionPane.showMessageDialog(null, ex.getMessage());
+        }
     }//GEN-LAST:event_bthumiActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
+    private void btremoveColActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btremoveColActionPerformed
+        bl.switchCol();
+    }//GEN-LAST:event_btremoveColActionPerformed
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -163,8 +191,10 @@ public class WeatherGUI extends javax.swing.JFrame {
     private javax.swing.JMenuItem btadd;
     private javax.swing.JMenuItem bthumi;
     private javax.swing.JMenuItem btremove;
+    private javax.swing.JMenuItem btremoveCol;
     private javax.swing.JMenuItem bttemp;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JPopupMenu jPopupMenu1;
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 }

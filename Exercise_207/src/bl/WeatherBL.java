@@ -8,6 +8,8 @@ public class WeatherBL extends AbstractTableModel {
 
     private ArrayList<WeatherStation> stations = new ArrayList<>();
     private static String[] colNames = {"Place", "Sea Level", "Temperature", "rel. Humidity"};
+    private static String[] spColNames = {"Place", "Temperature", "rel. Humidity"};
+    public static boolean show2 = true;
     
     public void add(WeatherStation s){
         stations.add(s);
@@ -22,6 +24,15 @@ public class WeatherBL extends AbstractTableModel {
         fireTableDataChanged();
     }
     
+    public void update(){
+        fireTableDataChanged();
+    }
+    
+    public void switchCol(){
+        show2 = !show2;
+        fireTableStructureChanged();
+    }
+    
     public void sortName(){
         Collections.sort(stations, new SortByName());
     }    
@@ -32,7 +43,8 @@ public class WeatherBL extends AbstractTableModel {
 
     @Override
     public int getColumnCount() {
-        return colNames.length;
+        if(show2) return colNames.length;
+        return spColNames.length;
     }
 
     @Override
@@ -42,7 +54,8 @@ public class WeatherBL extends AbstractTableModel {
     
     @Override
     public String getColumnName(int i) {
-        return colNames[i];
+        if(show2) return colNames[i];
+        return spColNames[i];
     }
     
 }
